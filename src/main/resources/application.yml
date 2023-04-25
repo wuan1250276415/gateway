@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: backendbaseplatform
+          uri: lb://backendbaseplatform
+          predicates:
+            - Path=/backendbaseplatform/**
+          filters:
+            - StripPrefix=1
+    consul:
+      host: 192.168.46.199
+      port: 8500
+      discovery:
+        instanceId: ${spring.application.name}
+        health-check-url: http://${server.address}:${server.port}/actuator/health
+        ip-address: ${server.address}
+        prefer-ip-address: true
+        service-name: ${spring.application.name}
+        health-check-interval: 10s
+        health-check-timeout: 5s
+        health-check-critical-timeout: 60s
+        tags: api-gateway
+        register: true
+#        deregister: true
+        enabled: true
+        fail-fast: true
+        catalog-services-watch:
+          enabled: true
+          delay: 10s
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+server:
+  port: 8081
+  address: 192.168.46.87
