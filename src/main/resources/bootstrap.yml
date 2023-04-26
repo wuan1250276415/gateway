@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    bootstrap:
+      enabled: true
+    consul:
+      host: gcsg.topwuan.tech
+      port: 8500
+      config:
+        default-context: application
+        format: yaml
+        enabled: true
+        data-key: gateway
+        import-check:
+          enabled: false
+        prefixes: config
